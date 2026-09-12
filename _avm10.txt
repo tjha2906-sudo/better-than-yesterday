@@ -1,0 +1,29 @@
+.
+     *
+     * @param program - The compiled TEAL program which contains the logic for
+     *   this LogicSig.
+     * @param args - An optional array of arguments for the program.
+     */
+    constructor(program, args) {
+        this.lsig = new LogicSig(program, args);
+        this.sigkey = undefined;
+    }
+    // eslint-disable-next-line class-methods-use-this
+    getEncodingSchema() {
+        return LogicSigAccount.encodingSchema;
+    }
+    toEncodingData() {
+        return new Map([
+            ['lsig', this.lsig.toEncodingData()],
+            ['sigkey', this.sigkey],
+        ]);
+    }
+    static fromEncodingData(data) {
+        if (!(data instanceof Map)) {
+            throw new Error(`Invalid decoded logic sig account: ${data}`);
+        }
+        const value = data;
+        const lsig = LogicSig.fromEncodingData(value.get('lsig'));
+        const lsigAccount = new LogicSigAccount(lsig.logic, lsig.args);
+        lsigAccount.lsig = lsig; // Restore other properties of the lsig
+    

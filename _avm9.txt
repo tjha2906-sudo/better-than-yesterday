@@ -1,0 +1,6 @@
+x402-service\node_modules\algosdk\dist\browser\algosdk.min.js
+x402-service\node_modules\algosdk\dist\browser\algosdk.min.js.map
+x402-service\node_modules\algosdk\dist\cjs\logicsig.js
+x402-service\node_modules\algosdk\dist\cjs\transaction.js
+x402-service\node_modules\algosdk\dist\esm\logicsig.js
+x402-service\node_modules\algosdk\dist\esm\transaction.js

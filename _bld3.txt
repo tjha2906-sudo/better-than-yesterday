@@ -1,0 +1,2 @@
+{"timestamp":"2026-09-11T10:20:23.824843975Z","level":"info","message":"scheduling build on Metal builder \"builder-ngynwc\""}
+{"message":"scheduling build on Metal builder \"builder-ngynwc\"","timestamp":"2026-09-11T10:20:26.643803072Z","level":"info"}

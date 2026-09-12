@@ -1,0 +1,23 @@
+
+Workspace:       Tejaswi Kumar jha's Projects
+
+Project:         better-than-yesterday
+Project ID:      1363f096-bb49-44b5-b920-ea49b9a6fd2d
+
+Environment:     production
+Environment ID:  b501de12-635e-486f-8509-fde18263581b
+
+Linked service
+
+django-api
+    status:        ○ Offline
+    service ID:    1a0c4814-77d3-4712-a0fa-4b52332333d7
+
+────────────────────────────────────────────────
+
+All resources
+
+    Services
+      - django-api: ○ Offline
+      - better-than-yesterday: ● Online · https://better-than-yesterday-production.up.railway.app
+

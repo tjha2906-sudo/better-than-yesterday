@@ -1,0 +1,106 @@
+Sign in to Railway — also creates a new account if you don't have one.
+
+Uses a single OAuth flow for both sign-in and sign-up. Brand-new accounts are detected automatically and land on a welcome page; existing users see the standard sign-in confirmation. Use --browserless for SSH sessions, remote dev boxes, or any environment where a local browser can't open.
+
+Usage: railway.exe login [OPTIONS]
+
+Options:
+  -b, --browserless
+          Use a device-code flow instead of opening a browser. Prints a sign-in link + short code to use from any device. Only needed when this machine truly has no browser — the CLI already auto-detects SSH, CI, and missing DISPLAY. If a human is at this machine (including under a coding agent), omit this flag: the browser flow completes far more reliably
+
+  -h, --help
+          Print help (see a summary with '-h')
+
+  -V, --version
+          Print version
+
+Upload and deploy project from the current directory.
+
+If you're not signed in, signs you in or creates a Railway account (single unified OAuth flow — new accounts are created on the fly) via a browser, or a device code on SSH/headless sessions, then chains into project + service creation and deploy. Pair with -y to skip the surrounding prompts in scripted or agent-driven contexts.
+
+Usage: railway.exe up [OPTIONS] [PATH]
+
+Arguments:
+  [PATH]
+          
+
+Options:
+  -d, --detach
+          Don't attach to the log stream — start the deploy and return immediately. Use --no-wait as the alternate name in scripted flows. Combine with -y for fully unattended runs
+
+  -y, --yes
+          Accept all defaults — skip the auth confirm prompt for unauthed users and skip the project-name prompt when creating a new project from this directory. OAuth itself still needs a human (browser, or device code on SSH/headless); -y just removes the surrounding prompts
+
+  -c, --ci
+          Stream build logs only, then exit (equivalent to setting $CI=true)
+
+  -s, --service <SERVICE>
+          Service to deploy to (defaults to linked service)
+
+  -e, --environment <ENVIRONMENT>
+          Environment to deploy to (defaults to linked environment)
+
+  -p, --project <PROJECT_ID>
+          Project ID to deploy to (defaults to linked project)
+
+  -w, --workspace <WORKSPACE>
+          Workspace to create a new project in (first-run / --new). Auto-selects if you only have one; otherwise prompts
+
+      --new
+          Create a NEW project + service from this directory and deploy it, even if one is already linked. Implied on a cold/unauthenticated first run, and for `-y` when nothing is linked
+
+      --name <NAME>
+          Name for a newly created project (defaults to the current directory's name). Only used when creating a new project
+
+      --no-gitignore
+          Don't ignore paths from .gitignore
+
+      --path-as-root
+          Use the path argument as the prefix for the archive instead of the project directory
+
+      --verbose
+          Verbose output
+
+      --json
+          Output logs in JSON format (implies CI mode behavior)
+
+  -m, --message <MESSAGE>
+          Message to attach to the deployment
+
+  -h, --help
+          Print help (see a summary with '-h')
+
+  -V, --version
+          Print version
+
+Examples:
+
+  railway up --service api --environment production
+  railway up ./apps/api --path-as-root --service api
+  railway up --detach --json --message "deploy api"
+
+Automation notes:
+  `railway up --detach --json` starts an upload and deployment, but it does not wait for the deployment to become healthy.
+  Poll with `railway deployment list --json` and inspect logs with `railway logs --json --lines 100`.
+  To switch a locally uploaded service to GitHub autodeploys, run `railway service source connect --repo owner/repo --branch main --service api`.
+
+Create a new project
+
+Usage: railway.exe init [OPTIONS]
+
+Options:
+  -n, --name <NAME>            Project name
+  -w, --workspace <WORKSPACE>  Workspace ID or name
+      --json                   Output in JSON format
+  -h, --help                   Print help
+  -V, --version                Print version
+
+Examples:
+
+  railway init --name api --json
+  railway init --name api --workspace workspace-id --json
+
+Automation notes:
+  This creates a project and links the current directory to the project's default environment.
+  Use an exact workspace ID or name when running outside a terminal.
+

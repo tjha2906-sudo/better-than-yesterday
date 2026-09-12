@@ -1,0 +1,1722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Dashboard — Better Than Yesterday</title>
+
+    <!-- Existing global design tokens -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Dashboard -->
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body class="dashboard-body">
+
+    <!-- =====================================================
+         BACKGROUND
+    ====================================================== -->
+
+    <div class="dashboard-background">
+        <div class="ambient ambient-one"></div>
+        <div class="ambient ambient-two"></div>
+        <div class="ambient ambient-three"></div>
+
+        <div id="particleLayer" class="particle-layer"></div>
+    </div>
+
+
+    <!-- =====================================================
+         3D TRANSITION
+    ====================================================== -->
+
+    <div
+        id="transitionScene"
+        class="transition-scene"
+        aria-hidden="true"
+    >
+        <canvas id="transitionCanvas"></canvas>
+
+        <div class="transition-label">
+            <span id="transitionLabel">Loading</span>
+        </div>
+    </div>
+
+
+    <!-- =====================================================
+         MOBILE TOPBAR
+    ====================================================== -->
+
+    <header class="mobile-topbar">
+
+        <button
+            id="mobileMenuButton"
+            class="icon-button"
+            aria-label="Open menu"
+        >
+            ☰
+        </button>
+
+        <div class="mobile-brand">
+            Better Than<br>
+            Yesterday
+        </div>
+
+        <div class="mobile-avatar" id="mobileAvatar">
+            T
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside id="sidebar" class="dashboard-sidebar">
+
+        <div class="sidebar-top">
+
+            <a
+                href="index.html"
+                class="sidebar-brand"
+            >
+                Better Than<br>
+                Yesterday
+            </a>
+
+
+            <nav class="dashboard-nav">
+
+                <button
+                    class="nav-item is-active"
+                    data-section="overview"
+                >
+                    <span class="nav-icon">◇</span>
+                    <span>Overview</span>
+                </button>
+
+
+                <button
+                    class="nav-item"
+                    data-section="activities"
+                >
+                    <span class="nav-icon">✓</span>
+                    <span>Activities</span>
+                </button>
+
+
+                <button
+                    class="nav-item"
+                    data-section="focus"
+                >
+                    <span class="nav-icon">◷</span>
+                    <span>Focus</span>
+                </button>
+
+
+                <button
+                    class="nav-item"
+                    data-section="goals"
+                >
+                    <span class="nav-icon">⌁</span>
+                    <span>Goals</span>
+                </button>
+
+
+                <button
+                    class="nav-item"
+                    data-section="progress"
+                >
+                    <span class="nav-icon">↗</span>
+                    <span>Progress</span>
+                </button>
+
+
+                <button
+                    class="nav-item"
+                    data-section="achievements"
+                >
+                    <span class="nav-icon">◇</span>
+                    <span>Achievements</span>
+                </button>
+
+                <button
+                    class="nav-item"
+                    data-section="premium"
+                >
+                    <span class="nav-icon">✦</span>
+                    <span>Premium Report</span>
+                </button>
+
+            </nav>
+
+        </div>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="sidebar-user">
+
+                <div
+                    id="userAvatar"
+                    class="user-avatar"
+                >
+                    T
+                </div>
+
+                <div class="user-meta">
+                    <strong id="sidebarUsername">
+                        Tejas
+                    </strong>
+
+                    <span>
+                        Productivity mode
+                    </span>
+                </div>
+
+            </div>
+
+
+            <button
+                id="logoutButton"
+                class="logout-button"
+            >
+                Log out
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <div
+        id="sidebarOverlay"
+        class="sidebar-overlay"
+    ></div>
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="dashboard-main">
+
+        <!-- =================================================
+             GLOBAL HEADER
+        ================================================== -->
+
+        <header class="dashboard-header">
+
+            <div>
+
+                <p class="eyebrow">
+                    YOUR PRODUCTIVITY
+                </p>
+
+                <h1>
+                    Good morning,
+                    <span id="heroUsername">
+                        Tejas
+                    </span>.
+                </h1>
+
+            </div>
+
+
+            <div
+                id="headerDate"
+                class="header-date"
+            >
+                Wednesday, 9 September 2026
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             OVERVIEW
+        ================================================== -->
+
+        <section
+            class="dashboard-section is-active"
+            data-section-panel="overview"
+        >
+
+            <div class="section-heading mobile-only">
+
+                <p class="eyebrow">
+                    TODAY
+                </p>
+
+                <h2>
+                    Overview
+                </h2>
+
+            </div>
+
+
+            <!-- SCORE + STREAK -->
+
+            <div class="overview-hero-grid">
+
+                <article class="score-card glass-card">
+
+                    <div class="score-ring">
+
+                        <svg
+                            viewBox="0 0 220 220"
+                            class="score-svg"
+                        >
+
+                            <circle
+                                class="score-track"
+                                cx="110"
+                                cy="110"
+                                r="92"
+                            ></circle>
+
+                            <circle
+                                id="scoreRing"
+                                class="score-progress"
+                                cx="110"
+                                cy="110"
+                                r="92"
+                            ></circle>
+
+                        </svg>
+
+
+                        <div class="score-center">
+
+                            <strong id="totalScore">
+                                0
+                            </strong>
+
+                            <span>
+                                /100
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="score-copy">
+
+                        <p class="eyebrow">
+                            TODAY'S SCORE
+                        </p>
+
+                        <h2 id="scoreMessage">
+                            Let's make today count.
+                        </h2>
+
+                        <p id="scoreDescription">
+                            Your score combines completion,
+                            focused time and consistency.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="streak-card glass-card">
+
+                    <p class="eyebrow">
+                        CURRENT STREAK
+                    </p>
+
+                    <div class="streak-display">
+
+                        <div class="streak-icon">
+                            🔥
+                        </div>
+
+                        <div>
+
+                            <strong id="streakValue">
+                                0
+                            </strong>
+
+                            <span>
+                                days
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <p id="streakMessage">
+                        Start your streak today.
+                    </p>
+
+                </article>
+
+            </div>
+
+
+            <!-- METRICS -->
+
+            <div class="metric-grid">
+
+                <article class="metric-card">
+
+                    <span>
+                        Completion
+                    </span>
+
+                    <strong>
+                        <span id="completionScore">0</span>
+                        <small>/ 50</small>
+                    </strong>
+
+                </article>
+
+
+                <article class="metric-card">
+
+                    <span>
+                        Focus time
+                    </span>
+
+                    <strong>
+                        <span id="focusScore">0</span>
+                        <small>/ 30</small>
+                    </strong>
+
+                </article>
+
+
+                <article class="metric-card">
+
+                    <span>
+                        Consistency
+                    </span>
+
+                    <strong>
+                        <span id="consistencyScore">0</span>
+                        <small>/ 20</small>
+                    </strong>
+
+                </article>
+
+
+                <article class="metric-card">
+
+                    <span>
+                        Improvement
+                    </span>
+
+                    <strong id="improvementScore">
+                        0%
+                    </strong>
+
+                </article>
+
+            </div>
+
+
+            <!-- QUICK ACTIONS -->
+
+            <div class="quick-actions">
+
+                <button
+                    class="quick-action"
+                    data-go-section="activities"
+                >
+                    <span class="quick-action-icon">✓</span>
+
+                    <span>
+                        <strong>
+                            Add activity
+                        </strong>
+
+                        <small>
+                            Log productive work
+                        </small>
+                    </span>
+
+                    <span class="quick-arrow">
+                        →
+                    </span>
+                </button>
+
+
+                <button
+                    class="quick-action"
+                    data-go-section="focus"
+                >
+                    <span class="quick-action-icon">◷</span>
+
+                    <span>
+                        <strong>
+                            Start focus
+                        </strong>
+
+                        <small>
+                            Enter deep work
+                        </small>
+                    </span>
+
+                    <span class="quick-arrow">
+                        →
+                    </span>
+                </button>
+
+
+                <button
+                    class="quick-action"
+                    data-go-section="goals"
+                >
+                    <span class="quick-action-icon">⌁</span>
+
+                    <span>
+                        <strong>
+                            Set today's goals
+                        </strong>
+
+                        <small>
+                            Define your targets
+                        </small>
+                    </span>
+
+                    <span class="quick-arrow">
+                        →
+                    </span>
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             ACTIVITIES
+        ================================================== -->
+
+        <section
+            class="dashboard-section"
+            data-section-panel="activities"
+        >
+
+            <div class="section-header">
+
+                <div>
+
+                    <p class="eyebrow">
+                        TODAY'S WORK
+                    </p>
+
+                    <h2>
+                        Activities
+                    </h2>
+
+                    <p class="section-description">
+                        Small actions compound into visible progress.
+                    </p>
+
+                </div>
+
+
+                <button
+                    id="addActivityButton"
+                    class="primary-button"
+                >
+                    + Add activity
+                </button>
+
+            </div>
+
+
+            <div class="activity-summary glass-card">
+
+                <div>
+
+                    <span>
+                        Today's activities
+                    </span>
+
+                    <strong id="activityCount">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Completed
+                    </span>
+
+                    <strong id="completedActivityCount">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Productive time
+                    </span>
+
+                    <strong id="activityMinutes">
+                        0 min
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="activitiesList"
+                class="activities-list"
+            >
+                <div class="empty-state">
+                    <span class="empty-icon">◇</span>
+                    <h3>No activities yet</h3>
+                    <p>
+                        Add your first productive activity.
+                    </p>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             FOCUS
+        ================================================== -->
+
+        <section
+            class="dashboard-section"
+            data-section-panel="focus"
+        >
+
+            <div class="section-header">
+
+                <div>
+
+                    <p class="eyebrow">
+                        DEEP WORK
+                    </p>
+
+                    <h2>
+                        Focus
+                    </h2>
+
+                    <p class="section-description">
+                        Protect a block of time and make it count.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="focus-layout">
+
+                <!-- TIMER -->
+
+                <article class="focus-timer-card glass-card">
+
+                    <div class="focus-card-top">
+
+                        <div>
+
+                            <p class="eyebrow">
+                                FOCUS SESSION
+                            </p>
+
+                            <span
+                                id="focusStatus"
+                                class="focus-status"
+                            >
+                                Ready
+                            </span>
+                            <span id="focusDurationLabel" class="focus-duration-label">
+                                25 min session
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="timer-wrapper">
+
+                        <svg
+                            class="timer-svg"
+                            viewBox="0 0 300 300"
+                        >
+
+                            <circle
+                                class="timer-track"
+                                cx="150"
+                                cy="150"
+                                r="130"
+                            ></circle>
+
+                            <circle
+                                id="timerProgress"
+                                class="timer-progress"
+                                cx="150"
+                                cy="150"
+                                r="130"
+                            ></circle>
+
+                        </svg>
+
+
+                        <div class="timer-center">
+
+                            <strong id="focusTime">
+                                25:00
+                            </strong>
+
+                            <span>
+                                remaining
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="timer-controls">
+
+                        <button
+                            id="startFocusButton"
+                            class="primary-button large"
+                        >
+                            Start focus
+                        </button>
+
+
+                        <div
+                            id="activeFocusControls"
+                            class="active-focus-controls"
+                        >
+
+                            <button
+                                id="pauseFocusButton"
+                                class="secondary-button"
+                            >
+                                Pause
+                            </button>
+
+                            <button
+                                id="resumeFocusButton"
+                                class="secondary-button"
+                            >
+                                Resume
+                            </button>
+
+                            <button
+                                id="completeFocusButton"
+                                class="primary-button"
+                            >
+                                Complete
+                            </button>
+
+                            <button
+                                id="cancelFocusButton"
+                                class="danger-button"
+                            >
+                                Cancel
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <!-- SETTINGS -->
+
+                <aside class="focus-settings glass-card">
+
+                    <div class="settings-block">
+
+                        <p class="eyebrow">
+                            DURATION
+                        </p>
+
+                        <div class="duration-presets">
+
+                            <button
+                                class="duration-btn"
+                                data-duration="15"
+                            >
+                                15m
+                            </button>
+
+                            <button
+                                class="duration-btn is-selected"
+                                data-duration="25"
+                            >
+                                25m
+                            </button>
+
+                            <button
+                                class="duration-btn"
+                                data-duration="30"
+                            >
+                                30m
+                            </button>
+
+                            <button
+                                class="duration-btn"
+                                data-duration="45"
+                            >
+                                45m
+                            </button>
+
+                            <button
+                                class="duration-btn"
+                                data-duration="60"
+                            >
+                                60m
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="custom-timer-box">
+
+                        <label for="customDuration">
+                            Custom duration
+                        </label>
+
+                        <div class="custom-input-row">
+
+                            <input
+                                id="customDuration"
+                                type="number"
+                                min="1"
+                                max="180"
+                                step="1"
+                                placeholder="45"
+                            >
+
+                            <span>
+                                min
+                            </span>
+
+                        </div>
+
+                        <button
+                            id="setCustomDuration"
+                            class="secondary-button full"
+                        >
+                            Set custom timer
+                        </button>
+
+                        <small>
+                            Choose any duration from 1 to 180 minutes.
+                        </small>
+
+                    </div>
+
+
+                    <div class="focus-activity-box">
+
+                        <label for="focusActivity">
+                            Focus activity
+                        </label>
+
+                        <select id="focusActivity">
+                            <option value="">
+                                Standalone focus
+                            </option>
+                        </select>
+
+                    </div>
+
+
+                    <div class="focus-session-count">
+
+                        <span>
+                            Sessions recorded
+                        </span>
+
+                        <strong id="focusSessionCount">
+                            0
+                        </strong>
+
+                    </div>
+
+                </aside>
+
+            </div>
+
+
+            <div class="focus-history glass-card">
+
+                <div class="section-mini-header">
+
+                    <div>
+
+                        <p class="eyebrow">
+                            HISTORY
+                        </p>
+
+                        <h3>
+                            Recent focus sessions
+                        </h3>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="focusSessionsList"
+                    class="focus-sessions-list"
+                >
+                    <div class="empty-state compact">
+                        <p>
+                            No focus sessions recorded yet.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             GOALS
+        ================================================== -->
+
+        <section
+            class="dashboard-section"
+            data-section-panel="goals"
+        >
+
+            <div class="section-header">
+
+                <div>
+
+                    <p class="eyebrow">
+                        TODAY
+                    </p>
+
+                    <h2>
+                        Daily goals
+                    </h2>
+
+                    <p class="section-description">
+                        Decide what enough looks like before the day decides for you.
+                    </p>
+
+                </div>
+
+
+                <button
+                    id="editGoalsButton"
+                    class="secondary-button"
+                >
+                    Edit targets
+                </button>
+
+            </div>
+
+
+            <article class="goal-main-card glass-card">
+
+                <div class="goal-message">
+
+                    <p class="eyebrow">
+                        YOUR TARGETS
+                    </p>
+
+                    <h3 id="goalMessage">
+                        Your day is still yours.
+                    </h3>
+
+                </div>
+
+
+                <div class="goal-progress-grid">
+
+                    <div class="goal-progress-item">
+
+                        <div class="goal-row">
+
+                            <span>
+                                Activities
+                            </span>
+
+                            <strong id="goalActivityText">
+                                0 / 5
+                            </strong>
+
+                        </div>
+
+                        <div class="progress-track">
+
+                            <div
+                                id="goalActivityBar"
+                                class="progress-fill"
+                                style="width:0%"
+                            ></div>
+
+                        </div>
+
+                        <span
+                            id="goalActivityPercent"
+                            class="progress-percent"
+                        >
+                            0%
+                        </span>
+
+                    </div>
+
+
+                    <div class="goal-progress-item">
+
+                        <div class="goal-row">
+
+                            <span>
+                                Focused time
+                            </span>
+
+                            <strong id="goalTimeText">
+                                0 / 120 min
+                            </strong>
+
+                        </div>
+
+                        <div class="progress-track">
+
+                            <div
+                                id="goalTimeBar"
+                                class="progress-fill"
+                                style="width:0%"
+                            ></div>
+
+                        </div>
+
+                        <span
+                            id="goalTimePercent"
+                            class="progress-percent"
+                        >
+                            0%
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <div class="goal-tips">
+
+                <article class="tip-card">
+
+                    <span class="tip-number">
+                        01
+                    </span>
+
+                    <h3>
+                        Make it measurable.
+                    </h3>
+
+                    <p>
+                        A clear target gives your day a finish line.
+                    </p>
+
+                </article>
+
+
+                <article class="tip-card">
+
+                    <span class="tip-number">
+                        02
+                    </span>
+
+                    <h3>
+                        Protect the important work.
+                    </h3>
+
+                    <p>
+                        Use focus sessions to convert intention into time.
+                    </p>
+
+                </article>
+
+
+                <article class="tip-card">
+
+                    <span class="tip-number">
+                        03
+                    </span>
+
+                    <h3>
+                        Finish stronger.
+                    </h3>
+
+                    <p>
+                        You don't need a perfect day. You need a better one.
+                    </p>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             PROGRESS
+        ================================================== -->
+
+        <section
+            class="dashboard-section"
+            data-section-panel="progress"
+        >
+
+            <div class="section-header">
+
+                <div>
+
+                    <p class="eyebrow">
+                        YOUR JOURNEY
+                    </p>
+
+                    <h2>
+                        Progress
+                    </h2>
+
+                    <p class="section-description">
+                        Look for direction, not perfection.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- WEEKLY -->
+
+            <article class="progress-card glass-card">
+
+                <div class="section-mini-header">
+
+                    <div>
+
+                        <p class="eyebrow">
+                            LAST 7 DAYS
+                        </p>
+
+                        <h3>
+                            Weekly performance
+                        </h3>
+
+                    </div>
+
+
+                    <div class="weekly-average">
+
+                        <span>
+                            Average
+                        </span>
+
+                        <strong id="weeklyAverage">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="weeklyChart"
+                    class="weekly-chart"
+                ></div>
+
+            </article>
+
+
+            <!-- COMPARISON -->
+
+            <article class="comparison-card glass-card">
+
+                <div>
+
+                    <p class="eyebrow">
+                        DAY TO DAY
+                    </p>
+
+                    <h3>
+                        Better than yesterday
+                    </h3>
+
+                </div>
+
+
+                <div class="comparison-grid">
+
+                    <div>
+
+                        <span>
+                            Yesterday
+                        </span>
+
+                        <strong id="yesterdayScore">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="comparison-arrow">
+                        →
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Today
+                        </span>
+
+                        <strong id="todayComparisonScore">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="comparison-change">
+
+                        <strong id="comparisonChange">
+                            0%
+                        </strong>
+
+                        <span>
+                            change
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- BEST / WORST -->
+
+            <div class="best-worst-grid">
+
+                <article class="mini-result-card">
+
+                    <span class="eyebrow">
+                        BEST DAY
+                    </span>
+
+                    <strong id="bestDay">
+                        —
+                    </strong>
+
+                </article>
+
+
+                <article class="mini-result-card">
+
+                    <span class="eyebrow">
+                        WORST DAY
+                    </span>
+
+                    <strong id="worstDay">
+                        —
+                    </strong>
+
+                </article>
+
+            </div>
+
+
+            <!-- HEATMAP -->
+
+            <article class="heatmap-card glass-card">
+
+                <div class="section-mini-header">
+
+                    <div>
+
+                        <p class="eyebrow">
+                            CONSISTENCY
+                        </p>
+
+                        <h3>
+                            Productivity heatmap
+                        </h3>
+
+                    </div>
+
+                    <span class="heatmap-legend-label">
+                        Less → More
+                    </span>
+
+                </div>
+
+
+                <div
+                    id="productivityHeatmap"
+                    class="productivity-heatmap"
+                ></div>
+
+            </article>
+
+
+            <!-- CATEGORY -->
+
+            <article class="category-card glass-card">
+
+                <div class="section-mini-header">
+
+                    <div>
+
+                        <p class="eyebrow">
+                            WORK MIX
+                        </p>
+
+                        <h3>
+                            Activity categories
+                        </h3>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="categoryStats"
+                    class="category-stats"
+                ></div>
+
+            </article>
+
+        </section>
+
+
+        <!-- =================================================
+             ACHIEVEMENTS
+        ================================================== -->
+
+        <section
+            class="dashboard-section"
+            data-section-panel="achievements"
+        >
+
+            <div class="section-header">
+
+                <div>
+
+                    <p class="eyebrow">
+                        MILESTONES
+                    </p>
+
+                    <h2>
+                        Achievements
+                    </h2>
+
+                    <p class="section-description">
+                        Proof that consistency leaves a trail.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="achievementsGrid"
+                class="achievements-grid"
+            ></div>
+
+        </section>
+
+        <!-- =================================================
+     PREMIUM REPORT
+================================================== -->
+<section
+    class="dashboard-section"
+    data-section-panel="premium"
+>
+    <div class="section-header">
+        <div>
+            <p class="eyebrow">PREMIUM INSIGHT</p>
+
+            <h2>
+                Unlock your productivity intelligence.
+            </h2>
+
+            <p class="section-description">
+                Get deeper insights into your productivity,
+                consistency, improvement and performance trends.
+            </p>
+        </div>
+    </div>
+
+    <div class="premium-card">
+
+        <div class="premium-card-content">
+
+            <div class="premium-icon">
+                ✦
+            </div>
+
+            <div>
+                <p class="eyebrow">
+                    BETTER THAN YESTERDAY PRO
+                </p>
+
+                <h3>
+                    Premium Productivity Report
+                </h3>
+
+                <p>
+                    Discover your strongest days, productivity
+                    patterns, current streak and personalized
+                    performance insights.
+                </p>
+            </div>
+
+        </div>
+
+        <div class="premium-card-footer">
+
+            <div class="premium-price">
+                <strong>$0.01</strong>
+                <span>USDC</span>
+            </div>
+
+            <button
+                id="unlockPremiumBtn"
+                class="primary-button"
+                type="button"
+            >
+                ✦ Unlock Report
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div
+        id="premiumLoading"
+        class="premium-status"
+        style="display:none;"
+    >
+        <div class="premium-spinner"></div>
+
+        <div>
+            <strong>Processing payment...</strong>
+            <p>
+                Waiting for the Algorand Testnet x402 payment.
+            </p>
+        </div>
+    </div>
+
+
+    <div
+        id="premiumReport"
+        class="premium-report"
+        style="display:none;"
+    >
+
+        <div class="premium-report-header">
+            <div>
+                <p class="eyebrow">
+                    PREMIUM INSIGHT
+                </p>
+
+                <h3 id="premiumReportTitle">
+                    Premium Productivity Insight
+                </h3>
+            </div>
+
+            <span class="premium-paid-badge">
+                ✓ PAID
+            </span>
+        </div>
+
+
+        <p
+            id="premiumSummary"
+            class="premium-summary"
+        ></p>
+
+
+        <div
+            id="premiumMetrics"
+            class="premium-metrics"
+        ></div>
+
+
+        <div>
+            <p class="eyebrow">
+                INSIGHTS
+            </p>
+
+            <div
+                id="premiumInsights"
+                class="premium-insights"
+            ></div>
+        </div>
+
+    </div>
+
+</section> 
+
+    </main>
+
+
+    <!-- =====================================================
+         ACTIVITY MODAL
+    ====================================================== -->
+
+    <div
+        id="activityModal"
+        class="modal"
+    >
+
+        <div class="modal-backdrop" data-close-modal></div>
+
+        <div class="modal-card">
+
+            <button
+                class="modal-close"
+                data-close-modal
+                aria-label="Close"
+            >
+                ×
+            </button>
+
+            <p class="eyebrow">
+                NEW ACTIVITY
+            </p>
+
+            <h2>
+                What are you working on?
+            </h2>
+
+            <form id="activityForm">
+
+                <label>
+                    Activity name
+
+                    <input
+                        id="activityTitle"
+                        type="text"
+                        maxlength="100"
+                        placeholder="e.g. DSA practice"
+                        required
+                    >
+                </label>
+
+
+                <label>
+                    Category
+
+                    <input
+                        id="activityCategory"
+                        type="text"
+                        maxlength="100"
+                        placeholder="Coding, Study, Fitness..."
+                    >
+                </label>
+
+
+                <label>
+                    Duration
+
+                    <div class="input-with-unit">
+
+                        <input
+                            id="activityDuration"
+                            type="number"
+                            min="1"
+                            max="1440"
+                            placeholder="60"
+                            required
+                        >
+
+                        <span>
+                            min
+                        </span>
+
+                    </div>
+
+                </label>
+
+
+                <div class="modal-actions">
+
+                    <button
+                        type="button"
+                        class="secondary-button"
+                        data-close-modal
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="primary-button"
+                    >
+                        Add activity
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         GOALS MODAL
+    ====================================================== -->
+
+    <div
+        id="goalsModal"
+        class="modal"
+    >
+
+        <div class="modal-backdrop" data-close-modal></div>
+
+        <div class="modal-card">
+
+            <button
+                class="modal-close"
+                data-close-modal
+                aria-label="Close"
+            >
+                ×
+            </button>
+
+            <p class="eyebrow">
+                DAILY TARGETS
+            </p>
+
+            <h2>
+                Define enough for today.
+            </h2>
+
+            <form id="goalsForm">
+
+                <label>
+                    Activity target
+
+                    <input
+                        id="goalActivities"
+                        type="number"
+                        min="1"
+                        max="100"
+                        required
+                    >
+                </label>
+
+
+                <label>
+                    Focus time target
+
+                    <div class="input-with-unit">
+
+                        <input
+                            id="goalTime"
+                            type="number"
+                            min="1"
+                            max="1440"
+                            required
+                        >
+
+                        <span>
+                            min
+                        </span>
+
+                    </div>
+
+                </label>
+
+
+                <div class="modal-actions">
+
+                    <button
+                        type="button"
+                        class="secondary-button"
+                        data-close-modal
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="primary-button"
+                    >
+                        Save targets
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         TOAST
+    ====================================================== -->
+
+    <div
+        id="toastContainer"
+        class="toast-container"
+        aria-live="polite"
+    ></div>
+
+
+    <!-- =====================================================
+         THREE.JS
+    ====================================================== -->
+
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"
+    ></script>
+
+
+    <!-- =====================================================
+         DASHBOARD JS
+    ====================================================== -->
+
+    <script src="config.js"></script>
+    <script src="dashboard.js"></script>
+
+</body>
+
+<script src="https://unpkg.com/algosdk@3.6.0/dist/browser/algosdk.min.js"></script>
+</html>

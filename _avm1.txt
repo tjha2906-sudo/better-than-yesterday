@@ -1,0 +1,169 @@
+--- chunk-2BK2B7QI.mjs ---
+var __defProp = Object.defineProperty;
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+
+// src/constants.ts
+var ALGORAND_MAINNET_CAIP2 = "algorand:wGHE2Pwdvd7S12BL5FaOP20EGYesN73k";
+var ALGORAND_TESTNET_CAIP2 = "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDe";
+var CAIP2_NETWORKS = [ALGORAND_MAINNET_CAIP2, ALGORAND_TESTNET_CAIP2];
+var ALGORAND_MAINNET_GENESIS_HASH = "wGHE2Pwdvd7S12BL5FaOP20EGYesN73ktiC1qzkkit8=";
+var ALGORAND_TESTNET_GENESIS_HASH = "SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=";
+var USDC_MAINNET_ASA_ID = "31566704";
+var USDC_TESTNET_ASA_ID = "10458941";
+var USDC_DECIMALS = 6;
+var MAX_REASONABLE_FEE_PER_TXN = 5e3;
+function maxReasonableGroupFee(groupSize) {
+  return MAX_REASONABLE_FEE_PER_TXN * groupSize;
+}
+
+// src/utils.ts
+import {
+  decodeTransaction as decodeUnsignedTxn,
+  decodeSignedTransactio
+--- chunk-AY5WYLS5.mjs ---
+// src/types.ts
+function isExactAvmPayload(payload) {
+  return typeof payload === "object" && payload !== null && "paymentGroup" in payload && "paymentIndex" in payload && Array.isArray(payload.paymentGroup) && typeof payload.paymentIndex === "number" && payload.paymentGroup.every((item) => typeof item === "string");
+}
+
+export {
+  isExactAvmPayload
+};
+//# sourceMappingURL=chunk-AY5WYLS5.mjs.map
+--- chunk-E5CJULSE.mjs ---
+import {
+  ALGORAND_MAINNET_CAIP2,
+  ALGORAND_TESTNET_CAIP2,
+  USDC_DECIMALS,
+  USDC_MAINNET_ASA_ID,
+  USDC_TESTNET_ASA_ID,
+  normalizeAlgorandNetwork
+} from "./chunk-2BK2B7QI.mjs";
+
+// src/defaultAssets.ts
+var DEFAULT_ASSETS = {
+  [ALGORAND_MAINNET_CAIP2]: [
+    { asset: USDC_MAINNET_ASA_ID, decimals: USDC_DECIMALS, symbol: "USDC" }
+  ],
+  [ALGORAND_TESTNET_CAIP2]: [
+    { asset: USDC_TESTNET_ASA_ID, decimals: USDC_DECIMALS, symbol: "USDC" }
+  ]
+};
+function resolveNetworkKey(network) {
+  return normalizeAlgorandNetwork(network);
+}
+var getDefaultAsset = (network, symbol) => {
+  const key = resolveNetworkKey(network);
+  const assets = DEFAULT_ASSETS[key];
+  if (!assets || assets.length === 0) {
+    throw new Error(`No default asset configured for network ${network}`);
+  }
+  if (!symbol) {
+    return assets[0];
+  }
+  const normalized = symbol.toUpperCase();
+  const match = assets.find((en
+--- chunk-GWQ3CVFW.mjs ---
+nt(amount),
+      staticFee: feePayer ? microAlgo(0) : void 0,
+      // 0 fee when fee payer covers
+      note: `x402-payment-v${x402Version}-${Date.now()}`,
+      signer: emptySigner
+    });
+    const built = await composer.build();
+    let transactions = built.transactions.map((tws) => tws.txn);
+    if (feePayer) {
+      const sp = await algorandClient.getSuggestedParams();
+      const feePerByte = Number(sp.fee);
+      const minFee = Number(sp.minFee);
+      let totalGroupFee = BigInt(0);
+      for (const txn of transactions) {
+        const txnSize = encodeTransactionRaw(txn).length;
+        const txnFee = feePerByte > 0 ? Math.max(feePerByte * txnSize, minFee) : minFee;
+        totalGroupFee += BigInt(txnFee);
+      }
+      const ungrouped = transactions.map((txn, i) => {
+        const fee = i === 0 ? totalGroupFee : BigInt(0);
+        return new Transaction({ ...txn, fee, group: void 0 });
+      });
+      transactions = groupTransactions(ungrouped);
+    }
+    const encodedTxns = transactions.map((txn) => encodeTransactionRaw(txn));
+    const clientIndexes = transactions.map((txn, i) => txn.sender.toString() === this.signer.address ? i : -1).filter((i) => i !== -1);
+    const signedTxns = await this.signer.signTransactions(encodedTxns, clientIndexes);
+    const paymentGroup = encodedTxns.map((txnBytes, i) => {
+      const signedTxn = signedTxns[i];
+      if (signedTxn) {
+        return encodeTransaction(signedTxn);
+      }
+      return encodeTransaction(txnBytes);
+    });
+    const payload = {
+      paymentGroup,
+      paymentIndex
+    };
+    return {
+      x402Version,
+      payload
+    };
+  }
+  /**
+   * Creates or retrieves an AlgorandClient for the given network.
+   *
+   * @param network - Network identifier (CAIP-2 format)
+   * @returns AlgorandClient instance
+   */
+  getAlgorandClient(network) {
+    const normalizedNetwork = normalizeAlgorandNetwork(network);
+    if (this.config?.algorandClient) {
+      return this.config.algorandClient;
+    }
+    if (this.config?.algodUrl) {
+      return AlgorandClient.fromConfig({
+        algodConfig: {
+          serve
+--- index.mjs ---
+import {
+  ExactAvmScheme
+} from "./chunk-GWQ3CVFW.mjs";
+import {
+  DEFAULT_ASSETS,
+  findDefaultAsset,
+  getDefaultAsset
+} from "./chunk-E5CJULSE.mjs";
+import {
+  isExactAvmPayload
+} from "./chunk-AY5WYLS5.mjs";
+import {
+  ALGORAND_MAINNET_CAIP2,
+  ALGORAND_MAINNET_GENESIS_HASH,
+  ALGORAND_TESTNET_CAIP2,
+  ALGORAND_TESTNET_GENESIS_HASH,
+  CAIP2_NETWORKS,
+  MAX_REASONABLE_FEE_PER_TXN,
+  USDC_DECIMALS,
+  USDC_MAINNET_ASA_ID,
+  USDC_TESTNET_ASA_ID,
+  convertFromTokenAmount,
+  convertToTokenAmount,
+  decodeSignedTransaction,
+  decodeTransaction,
+  decodeUnsignedTransaction,
+  encodeTransaction,
+  getGenesisHashFromTransaction,
+  getNetworkFromCaip2,
+  getSenderFromTransaction,
+  getTransactionId,
+  hasSignature,
+  isAlgorandNetwork,
+  isTestnetNetwork,
+  isValidAlgorandAddress,
+  maxReasonableGroupFee,
+  normalizeAlgorandNetwork,
+  validateGroupId
+} from "./chunk-2BK2B7QI.mjs";
+
+// src/sig

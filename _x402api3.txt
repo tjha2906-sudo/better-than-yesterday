@@ -1,0 +1,52 @@
+rkClient;
+    /**
+     * The x402 protocol version to use for this scheme
+     *
+     * @default 2
+     */
+    x402Version?: number;
+}
+/**
+ * Configuration options for the fetch wrapper
+ */
+interface x402ClientConfig {
+    /**
+     * Array of scheme registrations defining which payment methods are supported
+     */
+    schemes: SchemeRegistration[];
+    /**
+     * Policies to apply to the client
+     */
+    policies?: PaymentPolicy[];
+    /**
+     * Spend controls; default is default assets only + {@link DEFAULT_MAX_AMOUNT_PER_PAYMENT}.
+     * Pass `false` to disable all spend controls (any asset, no caps).
+     */
+    spendControls?: SpendControls | false;
+    /**
+     * Custom payment requirements selector function
+     * If not provided, uses the default selector (first available option)
+     */
+    paymentRequirementsSelector?: SelectPaymentRequirements;
+}
+/**
+ * Core client for managing x402 payment schemes and creating payment payloads.
+ *
+ * Handles registration of payment schemes, policy-based filtering of payment requirements,
+ * and creation of payment payloads based on server requirements.
+ */
+declare class x402Client {
+    private readonly paymentRequirementsSelector;
+    private readonly registeredClientSchemes;
+    private readonly schemeClientHookAdapters;
+    private readonly policies;
+    private readonly registeredExtensions;
+    private spendControls;
+    private beforePaymentCreationHooks;
+    private afterPaymentCreationHooks;
+    private onPaymentCreationFailureHooks;
+    private paymentResponseHooks;
+    /**
+     * Creates a new x402Client instance.
+     *
+     * @param paymentRequirementsSelector - Function to select payment requirements from avail

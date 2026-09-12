@@ -1,0 +1,204 @@
+View build, deploy, HTTP, network flow, or DNS logs. This will stream logs by default, or fetch historical logs if the --lines, --since, or --until flags are provided.
+
+Usage: railway.exe logs [OPTIONS] [DEPLOYMENT_ID]
+
+Arguments:
+  [DEPLOYMENT_ID]
+          Deployment ID to view logs from. Defaults to most recent successful deployment, or latest deployment if none succeeded
+
+Options:
+  -s, --service <SERVICE>
+          Service to view logs from (defaults to linked service). Can be service name or service ID
+
+  -e, --environment <ENVIRONMENT>
+          Environment to view logs from (defaults to linked environment). Can be environment name or environment ID
+
+  -p, --project <PROJECT_ID>
+          Project ID to use (defaults to linked project)
+
+  -d, --deployment
+          Show deployment logs
+
+  -b, --build
+          Show build logs
+
+      --http
+          Show HTTP request logs
+
+      --network
+          Show network flow logs
+
+      --dns
+          Show DNS query logs
+
+      --json
+          Output logs in JSON format. Each log line becomes a JSON object with timestamp, message, and any other attributes
+
+  -n, --lines <LINES>
+          Number of log lines to fetch (disables streaming)
+          
+          [aliases: --tail]
+
+  -f, --filter <FILTER>
+          Filter logs using Railway's query syntax
+          
+          For deploy/build logs:
+            Text search:   "error message", "user signup"
+            Level filter:  @level:error, @level:warn, @level:info
+          
+          For HTTP logs (--http), all filterable fields:
+            String:  @method, @path, @host, @requestId, @clientUa, @srcIp,
+                     @edgeRegion, @upstreamAddress, @upstreamProto,
+                     @downstreamProto, @responseDetails,
+                     @deploymentId, @deploymentInstanceId
+            Numeric: @httpStatus, @totalDuration, @responseTime,
+                     @upstreamRqDuration, @txBytes, @rxBytes, @upstreamErrors
+          
+          For network flow logs (--network), all filterable fields:
+            String:  @protocol, @direction, @peer, @peer_kind, @status,
+                     @drop_cause, @src, @dst, @host
+            Numeric: @port
+            Boolean: @dropped
+          
+          For DNS logs (--dns), all filterable fields:
+            String:  @qname, @domain, @qtype, @rcode, @zone, @status
+          
+          Numeric operators: > >= < <= .. (range, e.g. @httpStatus:200..299)
+          Logical operators: AND, OR, - (negation), parentheses for grouping
+          
+          Examples:
+            @httpStatus:>=400
+            @totalDuration:>1000
+            -@method:OPTIONS
+            @httpStatus:>=400 AND @path:/api
+            (@method:GET OR @method:POST) AND @httpStatus:500
+            @protocol:tcp @direction:egress
+            @peer_kind:internet @port:443
+
+      --method <METHOD>
+          Filter HTTP logs by request method (requires --http)
+          
+          [possible values: GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS]
+
+      --status <STATUS>
+          Filter HTTP logs by status code, network flow logs by status (ok, dropped), or DNS logs by resolution status (ok, failed)
+
+      --path <PATH>
+          Filter HTTP logs by request path (requires --http)
+
+      --request-id <ID>
+          Filter HTTP logs by request ID (requires --http)
+
+      --protocol <PROTOCOL>
+          Filter network flow logs by layer 4 protocol
+          
+          [possible values: tcp, udp, icmp, icmpv6, unknown]
+
+      --direction <DIRECTION>
+          Filter network flow logs by traffic direction
+          
+          [possible values: ingress, egress]
+
+      --peer <PEER>
+          Filter network flow logs by peer service name/ID or a well-known peer (internet, dns, edge-proxy)
+
+      --peer-kind <PEER_KIND>
+          Filter network flow logs by peer kind
+          
+          [possible values: service, internet, edge_proxy, local_dns, unknown]
+
+      --dropped <BOOL>
+          Filter network flow logs by whether packets were dropped
+          
+          [possible values: true, false]
+
+      --port <PORT>
+          Filter network flow logs by source or destination port
+
+      --src <IP>
+          Filter network flow logs by source IP
+
+      --dst <IP>
+          Filter network flow logs by destination IP
+
+      --host <IP>
+          Filter network flow logs by source or destination IP
+
+      --drop-cause <CAUSE>
+          Filter network flow logs by drop cause
+
+      --domain <DOMAIN>
+          Filter DNS logs by domain, including its subdomains
+
+      --qname <NAME>
+          Filter DNS logs by the exact name looked up
+
+      --qtype <TYPE>
+          Filter DNS logs by record type (e.g. A, AAAA, CNAME, TXT)
+
+      --rcode <RCODE>
+          Filter DNS logs by response code (e.g. NOERROR, NXDOMAIN, SERVFAIL)
+
+      --zone <ZONE>
+          Filter DNS logs by lookup zone
+          
+          [possible values: internal, external]
+
+      --latest
+          Always show logs from the latest deployment, even if it failed or is still building
+
+  -S, --since <TIME>
+          Show logs since a specific time (disables streaming). Accepts relative times (e.g., 30s, 5m, 2h, 1d, 1w) or ISO 8601 timestamps (e.g., 2024-01-15T10:30:00Z)
+
+  -U, --until <TIME>
+          Show logs until a specific time (disables streaming). Same formats as --since
+
+  -h, --help
+          Print help (see a summary with '-h')
+
+  -V, --version
+          Print version
+
+Examples:
+
+  Deployment logs:
+  railway logs                                                       # Stream live logs from latest deployment
+  railway logs --build 7422c95b-c604-46bc-9de4-b7a43e1fd53d          # Stream build logs from a specific deployment
+  railway logs --lines 100                                           # Pull last 100 logs without streaming
+  railway logs --since 1h                                            # View logs from the last hour
+  railway logs --since 30m --until 10m                               # View logs from 30 minutes ago until 10 minutes ago
+  railway logs --since 2024-01-15T10:00:00Z                          # View logs since a specific timestamp
+  railway logs --service backend --environment production            # Stream logs from a specific service/environment
+  railway logs --lines 10 --filter "@level:error"                    # View 10 latest error logs
+  railway logs --lines 10 --filter "@level:warn AND rate limit"      # View 10 latest warning logs related to rate limiting
+  railway logs --json                                                # Get logs in JSON format
+  railway logs --latest                                              # Stream logs from the latest deployment (even if failed/building)
+
+  HTTP logs (typed filters):
+  railway logs --http --method GET --status 200                      # GET requests with 200 status
+  railway logs --http --method POST --path /api/users                # POST requests to /api/users
+  railway logs --http --status ">=400" --lines 50                    # Client/server errors, last 50
+  railway logs --http --status 500..599                              # Server errors only
+  railway logs --http --request-id abc123                            # Find a specific request
+
+  HTTP logs (raw filter for advanced queries):
+  railway logs --http --method GET --filter "@totalDuration:>=1000"  # Slow GET requests (combining typed + raw)
+  railway logs --http --filter "@srcIp:203.0.113.1 @edgeRegion:us-east-1"  # Filter by source IP and region
+  railway logs --http --filter "@httpStatus:>=400 AND @path:/api"   # Errors on API routes
+  railway logs --http --filter "-@method:OPTIONS"                    # Exclude OPTIONS requests
+
+  Network flow logs:
+  railway logs --network                                              # Stream live network flows
+  railway logs --network --lines 100                                  # Pull a snapshot and exit
+  railway logs --network --direction egress --protocol tcp            # Outbound TCP flows
+  railway logs --network --peer postgres --port 5432                  # Flows to a service peer
+  railway logs --network --status dropped                             # Dropped flows
+
+  DNS logs:
+  railway logs --dns                                                  # Stream live DNS queries
+  railway logs --dns --status failed                                  # Failed lookups only
+  railway logs --dns --rcode NXDOMAIN                                 # Names that don't exist
+  railway logs --dns --zone internal                                  # Private network lookups
+  railway logs --dns --domain example.com --qtype AAAA                # IPv6 lookups for a domain
+  railway logs --dns --qname backend.railway.internal --lines 50      # History for an exact name
+

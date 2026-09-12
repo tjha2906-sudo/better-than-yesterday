@@ -1,0 +1,14 @@
+ponse from the server
+     * @returns Promise resolving to the complete payment payload
+     */
+    createPaymentPayload(paymentRequired: PaymentRequired): Promise<PaymentPayload>;
+    /**
+     * Merges server-declared extensions with client extension echoes.
+     * Client extension data may add fields, but server-declared fields remain intact.
+     * For fields listed in `ADDITIVE_ARRAY_INFO_FIELDS` (e.g. builder-code `s`), a
+     * conflicting array is concatenated with client entries first (so a downstream
+     * length cap trims server entries rather than the client's) and duplicates
+     * removed; a scalar on either side is treated as a single-element array. Every
+     * other conflicting array keeps the server's value, same as any other scalar.
+     *
+     * @param serverExtensions 

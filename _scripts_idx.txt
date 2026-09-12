@@ -1,0 +1,11 @@
+446:<script type="importmap">
+454:<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+455:<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+457:<script type="module" src="three-scene.js"></script>
+458:<script type="module" src="script.js"></script>
+228:<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+230:<script src="auth.js"></script>
+1707:    <script
+1708:        src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"
+1716:    <script src="dashboard.js"></script>
+1720:<script src="https://unpkg.com/algosdk@3.6.0/dist/browser/algosdk.min.js"></script>

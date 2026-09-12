@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Better Than Yesterday — Become 1% better, every day.</title>
+<meta name="description" content="Measure your productivity, build consistency and become better than yesterday.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="nav" id="nav">
+    <div class="nav-inner">
+
+        <a href="index.html" class="nav-mark">Better Than Yesterday</a>
+
+        <nav class="nav-links">
+            <a href="#problem">The idea</a>
+            <a href="#story">Progress</a>
+            <a href="#features">Features</a>
+            <a href="#philosophy">Philosophy</a>
+        </nav>
+
+        <div class="nav-actions">
+            <a href="auth.html?mode=login" class="nav-login">Log in</a>
+            <a href="auth.html?mode=register" class="btn btn-small">
+                Start your journey
+            </a>
+        </div>
+
+        <button class="nav-burger" id="navBurger" aria-label="Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+    </div>
+
+    <div class="nav-mobile" id="navMobile">
+        <a href="#problem">The idea</a>
+        <a href="#story">Progress</a>
+        <a href="#features">Features</a>
+        <a href="#philosophy">Philosophy</a>
+        <a href="auth.html?mode=login">Log in</a>
+        <a href="auth.html?mode=register" class="btn">Start your journey</a>
+    </div>
+</header>
+
+
+<!-- HERO -->
+
+<section class="hero" id="hero">
+
+    <canvas id="orb-canvas" class="orb-canvas"></canvas>
+
+    <div class="hero-content">
+
+        <p class="hero-kicker">
+            A different kind of productivity system
+        </p>
+
+        <h1 class="hero-title">
+            Better than<br>yesterday.
+        </h1>
+
+        <p class="hero-sub">
+            Become 1% better. Every single day.
+        </p>
+
+        <div class="hero-ctas">
+
+            <a href="auth.html?mode=register"
+               class="btn btn-primary">
+                Start your journey
+            </a>
+
+            <a href="#problem"
+               class="btn btn-ghost">
+                Explore
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="hero-cards">
+
+        <div class="float-card fc-1" data-depth=".6">
+            <span class="fc-label">Today's score</span>
+            <span class="fc-value">78</span>
+        </div>
+
+        <div class="float-card fc-2" data-depth=".9">
+            <span class="fc-emoji">🔥</span>
+            <span class="fc-label">7 day streak</span>
+        </div>
+
+        <div class="float-card fc-3" data-depth=".4">
+            <span class="fc-label">Better than yesterday</span>
+            <span class="fc-value fc-value-accent">+12%</span>
+        </div>
+
+        <div class="float-card fc-4" data-depth="1.1">
+            <span class="fc-label">Focused today</span>
+            <span class="fc-value">
+                120<span class="fc-unit">min</span>
+            </span>
+        </div>
+
+    </div>
+
+    <div class="scroll-cue">
+        <span></span>
+        <p>Scroll</p>
+    </div>
+
+</section>
+
+
+<!-- PROBLEM -->
+
+<section class="section problem" id="problem">
+
+    <div class="section-inner">
+
+        <h2 class="section-title">
+            Most productivity apps tell you what you did.
+            <br>
+            <span class="muted">
+                They don't tell you if you're becoming better.
+            </span>
+        </h2>
+
+        <div class="compare-panel">
+
+            <div class="compare-col">
+                <span class="compare-label">Yesterday</span>
+                <span class="compare-num" id="landingYesterday">0</span>
+            </div>
+
+            <div class="compare-arrow">→</div>
+
+            <div class="compare-col compare-col-accent">
+                <span class="compare-label">Today</span>
+                <span class="compare-num" id="landingToday">0</span>
+            </div>
+
+            <div class="compare-delta">
+                <span id="landingDifference">0</span>
+                <span>% improvement</span>
+            </div>
+
+        </div>
+
+        <div class="metric-grid">
+
+            <div class="metric-card">
+                <span class="metric-name">Tasks</span>
+                <span class="metric-figure">6</span>
+                <span class="metric-of">of 8 done</span>
+            </div>
+
+            <div class="metric-card">
+                <span class="metric-name">Focus time</span>
+                <span class="metric-figure">120</span>
+                <span class="metric-of">minutes</span>
+            </div>
+
+            <div class="metric-card">
+                <span class="metric-name">Consistency</span>
+                <span class="metric-figure">93</span>
+                <span class="metric-of">% on track</span>
+            </div>
+
+            <div class="metric-card metric-card-accent">
+                <span class="metric-name">Productivity score</span>
+                <span class="metric-figure">78</span>
+                <span class="metric-of">out of 100</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- STORY -->
+
+<section class="section story" id="story">
+
+    <div class="section-inner">
+
+        <h2 class="section-title">
+            Your progress has a story.
+        </h2>
+
+        <p class="section-lede">
+            Three hundred and sixty-five days, laid out in one place.
+            Every square is a day you showed up — or didn't.
+        </p>
+
+        <div class="heatmap-wrap">
+
+            <div class="heatmap" id="heatmap"></div>
+
+            <div class="heatmap-tooltip" id="heatmapTooltip"></div>
+
+            <div class="heatmap-scale">
+                <span>Less</span>
+                <i class="s0"></i>
+                <i class="s1"></i>
+                <i class="s2"></i>
+                <i class="s3"></i>
+                <i class="s4"></i>
+                <span>More</span>
+            </div>
+
+        </div>
+
+        <div class="stat-row">
+
+            <div class="stat-item">
+                <span class="stat-figure">365</span>
+                <span class="stat-label">Days tracked</span>
+            </div>
+
+            <div class="stat-item">
+                <span class="stat-figure">127</span>
+                <span class="stat-label">Hours focused</span>
+            </div>
+
+            <div class="stat-item">
+                <span class="stat-figure">42</span>
+                <span class="stat-label">Activities</span>
+            </div>
+
+            <div class="stat-item">
+                <span class="stat-figure stat-figure-accent">18%</span>
+                <span class="stat-label">Improvement</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- FEATURES -->
+
+<section class="section features" id="features">
+
+    <div class="section-inner">
+
+        <h2 class="section-title">
+            Built around one loop.
+        </h2>
+
+        <p class="section-lede">
+            Show up, do the work, see the difference —
+            then do it again tomorrow.
+        </p>
+
+
+        <div class="feature-list">
+
+            <article class="feature-row">
+
+                <div class="feature-visual">
+                    <div class="flame-orb">
+                        <div class="flame-core"></div>
+                    </div>
+                </div>
+
+                <div class="feature-copy">
+                    <span class="feature-num">01</span>
+                    <h3>Build momentum.</h3>
+
+                    <p>
+                        Streaks track the days you kept your word
+                        to yourself.
+                    </p>
+
+                    <div class="feature-pill">🔥 Consistency</div>
+                </div>
+
+            </article>
+
+
+            <article class="feature-row feature-row-rev">
+
+                <div class="feature-visual">
+
+                    <div class="goal-circle">
+                        <strong>4</strong>
+                        <span>/ 5</span>
+                    </div>
+
+                </div>
+
+                <div class="feature-copy">
+                    <span class="feature-num">02</span>
+                    <h3>Know what matters today.</h3>
+
+                    <p>
+                        Set a small number of meaningful goals
+                        instead of drowning in a huge to-do list.
+                    </p>
+
+                    <div class="feature-pill">
+                        4 / 5 goals complete
+                    </div>
+                </div>
+
+            </article>
+
+
+            <article class="feature-row">
+
+                <div class="feature-visual">
+
+                    <div class="timer-face">
+                        <div class="timer-inner">
+                            <span>25:00</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="feature-copy">
+                    <span class="feature-num">03</span>
+                    <h3>Deep work. No distractions.</h3>
+
+                    <p>
+                        Start a focus session and let the timer
+                        handle the rest.
+                    </p>
+                </div>
+
+            </article>
+
+
+            <article class="feature-row feature-row-rev">
+
+                <div class="feature-visual">
+
+                    <div class="badge-cluster">
+                        <div>🔥</div>
+                        <div>⚡</div>
+                        <div>⏱️</div>
+                        <div>💯</div>
+                    </div>
+
+                </div>
+
+                <div class="feature-copy">
+                    <span class="feature-num">04</span>
+                    <h3>Turn consistency into milestones.</h3>
+
+                    <p>
+                        Every achievement represents something
+                        you actually accomplished.
+                    </p>
+                </div>
+
+            </article>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- PHILOSOPHY -->
+
+<section class="section philosophy" id="philosophy">
+
+    <canvas id="philosophy-canvas"></canvas>
+
+    <div class="section-inner philosophy-inner">
+
+        <p class="philosophy-line">
+            You don't need to become perfect.
+        </p>
+
+        <p class="philosophy-line philosophy-line-accent">
+            Just become better than yesterday.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- CTA -->
+
+<section class="section final-cta">
+
+    <canvas id="cta-canvas"></canvas>
+
+    <div class="section-inner final-cta-inner">
+
+        <h2 class="section-title">
+            Ready to become better than yesterday?
+        </h2>
+
+        <p class="section-lede">
+            Start small. Stay consistent. Keep improving.
+        </p>
+
+        <a href="auth.html?mode=register"
+           class="btn btn-primary btn-large">
+            Start your journey
+        </a>
+
+    </div>
+
+</section>
+
+
+<footer class="site-footer">
+
+    <div class="section-inner footer-inner">
+
+        <span>Better Than Yesterday</span>
+
+        <span>
+            Become 1% better. Every single day.
+        </span>
+
+    </div>
+
+</footer>
+
+
+<script type="importmap">
+{
+    "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
+    }
+}
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+<script type="module" src="three-scene.js"></script>
+<script src="config.js"></script>
+<script type="module" src="script.js"></script>
+
+</body>
+</html>

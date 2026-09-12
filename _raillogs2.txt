@@ -1,0 +1,28 @@
+{"message":"Starting Container","timestamp":"2026-09-11T08:53:13.580273156Z","level":"info"}
+{"timestamp":"2026-09-11T08:53:14.049289584Z","level":"info","message":"=========================================="}
+{"timestamp":"2026-09-11T08:53:14.049291273Z","message":"npm warn config production Use `--omit=dev` instead.","level":"error"}
+{"timestamp":"2026-09-11T08:53:14.049297003Z","message":"","level":"info"}
+{"message":"🚀 x402 service running at http://localhost:8080","timestamp":"2026-09-11T08:53:14.049299813Z","level":"info"}
+{"level":"info","message":"> x402-service@1.0.0 start","timestamp":"2026-09-11T08:53:14.049303673Z"}
+{"level":"info","message":"⛓️ Algorand Testnet","timestamp":"2026-09-11T08:53:14.049307773Z"}
+{"timestamp":"2026-09-11T08:53:14.049313613Z","level":"info","message":"> tsx src/server.ts"}
+{"level":"info","message":"💳 Payment receiver: V5C442LGGVAEFVQYNQHVCIDN5EU4JWOOL4WG6H2NQP5ZGHGTRODRRLN2BI","timestamp":"2026-09-11T08:53:14.049315403Z"}
+{"level":"info","message":"","timestamp":"2026-09-11T08:53:14.049319073Z"}
+{"message":"🪙 Payment asset: 10458941","level":"info","timestamp":"2026-09-11T08:53:14.049323033Z"}
+{"message":"◇ injected env (0) from .env // tip: ◈ encrypted .env [www.dotenvx.com]","timestamp":"2026-09-11T08:53:14.049325003Z","level":"info"}
+{"timestamp":"2026-09-11T08:53:14.049330743Z","message":"","level":"info"}
+{"level":"info","message":"🤝 Facilitator: https://facilitator.goplausible.xyz","timestamp":"2026-09-11T08:53:14.049331003Z"}
+{"message":"==========================================","timestamp":"2026-09-11T08:53:14.049338533Z","level":"info"}
+{"message":"==========================================","level":"info","timestamp":"2026-09-11T08:53:14.049338693Z"}
+{"timestamp":"2026-09-11T08:53:14.049345973Z","message":"✅ x402 service ready!","level":"info"}
+{"level":"info","message":"🔧 Better Than Yesterday x402","timestamp":"2026-09-11T08:53:14.049346943Z"}
+{"message":"==========================================","timestamp":"2026-09-11T08:53:14.049350683Z","level":"info"}
+{"timestamp":"2026-09-11T08:53:14.049354093Z","message":"📄 ENV file: /app/.env","level":"info"}
+{"level":"info","message":"💰 PAY_TO: V5C442LGGVAEFVQYNQHVCIDN5EU4JWOOL4WG6H2NQP5ZGHGTRODRRLN2BI","timestamp":"2026-09-11T08:53:14.049356933Z"}
+{"level":"info","timestamp":"2026-09-11T08:53:14.049359533Z","message":"💵 USDC ASA: 10458941"}
+{"timestamp":"2026-09-11T08:53:14.049362443Z","message":"⛓️ Network: algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=","level":"info"}
+{"message":"🤝 Facilitator: https://facilitator.goplausible.xyz","timestamp":"2026-09-11T08:53:14.049365343Z","level":"info"}
+{"level":"info","message":"==========================================","timestamp":"2026-09-11T08:53:14.049367683Z"}
+{"timestamp":"2026-09-11T08:53:14.049370323Z","level":"info","message":""}
+{"timestamp":"2026-09-11T08:53:14.049372883Z","level":"info","message":""}
+{"timestamp":"2026-09-11T08:53:14.049635291Z","level":"info","message":""}

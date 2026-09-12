@@ -1,0 +1,78 @@
+.anaconda
+Adobe
+Antigravity
+changzhi2
+Code
+Dell
+HD-Player
+Hola
+JetBrains
+jupyter
+lddownloader
+LM Studio
+Notepad++
+Portrait Displays
+Postman
+Python
+Spotify
+Sublime Text
+Telegram Desktop
+Upscayl
+Visual Studio Setup
+XuanZhi
+XuanZhi9
+xzdown
+Zoom
+.IdentityService
+antigravity
+antigravity-updater
+Backup
+Bluestacks
+BlueStacks X
+bluestacks-services-updater
+BrightData
+BSXCache
+cache
+CEF
+CMakeTools
+Comms
+conda
+conda-anaconda-tos
+ConnectedDevicesPlatform
+CrashDumps
+CrashReportClient
+D3DSCache
+Dell
+Epic Games
+Google
+HD-MultiInstanceManager
+HD-Player
+JetBrains
+lm-studio-updater
+MEmu
+Microsoft
+Microvirt
+ms-playwright-go
+npm-cache
+OneDrive
+Package Cache
+Packages
+pip
+PlaceholderTileLogoFolder
+Postman
+Programs
+Publishers
+pypa
+Roblox
+seaborn
+speech
+Spotify
+Spyder
+SquirrelTemp
+Sublime Text
+Temp
+ToastNotificationManagerCompat
+UnrealEngine
+upscayl-updater
+VirtualStore
+Zoom

@@ -1,0 +1,52 @@
+Add, list, inspect, update, or delete domains for a service.
+
+Running without a subcommand preserves the original create behavior: - `railway domain` generates a Railway-provided service domain - `railway domain example.com` creates a custom domain
+
+Usage: railway.exe domain [OPTIONS] [DOMAIN] [COMMAND]
+
+Commands:
+  list         List domains for a service [aliases: ls]
+  status       Show status and DNS details for a domain
+  delete       Delete a custom or service domain [aliases: remove, rm]
+  update       Update a domain [aliases: edit]
+  certificate  Manage custom domain certificates
+  help         Print this message or the help of the given subcommand(s)
+
+Arguments:
+  [DOMAIN]
+          Optionally, specify a custom domain to use. If not specified, a domain will be generated.
+          
+          Specifying a custom domain will also return the required DNS records to add to your DNS settings.
+
+Options:
+  -p, --port <PORT>
+          The port to connect to the domain when creating a domain
+
+  -s, --service <SERVICE>
+          The name of the service to manage domains for
+
+  -e, --environment <ENVIRONMENT>
+          Environment to use (defaults to linked environment)
+
+      --project <PROJECT_ID>
+          Project ID to use (defaults to linked project)
+
+      --json
+          Output in JSON format
+
+  -h, --help
+          Print help (see a summary with '-h')
+
+  -V, --version
+          Print version
+
+Examples:
+
+  railway domain
+  railway domain example.com --port 3000
+  railway domain list --service api --json
+  railway domain status example.com
+  railway domain update example.com --port 8080
+  railway domain certificate retry example.com
+  railway domain delete example.com --yes
+

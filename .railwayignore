@@ -1,0 +1,19 @@
+/* Only deployment artifacts are ignored. App code is uploaded. */
+/env/
+/x402-service/
+/Frontend/
+/.postman/
+/postman/
+.env*
+*.log
+/*.sqlite3
+_*.txt
+_x402*.txt
+access.txt
+reg3.txt
+register.txt
+register2.txt
+smoke-results.txt
+premium-nopay.txt
+x402-*.txt
+token.json

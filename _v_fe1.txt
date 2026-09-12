@@ -1,0 +1,15 @@
+{
+  "RAILWAY_ENVIRONMENT": "production",
+  "RAILWAY_ENVIRONMENT_ID": "b501de12-635e-486f-8509-fde18263581b",
+  "RAILWAY_ENVIRONMENT_NAME": "production",
+  "RAILWAY_PRIVATE_DOMAIN": "frontend.railway.internal",
+  "RAILWAY_PROJECT_ID": "1363f096-bb49-44b5-b920-ea49b9a6fd2d",
+  "RAILWAY_PROJECT_NAME": "better-than-yesterday",
+  "RAILWAY_PUBLIC_DOMAIN": "frontend-production-8adb0.up.railway.app",
+  "RAILWAY_SERVICE_BETTER_THAN_YESTERDAY_URL": "better-than-yesterday-production.up.railway.app",
+  "RAILWAY_SERVICE_DJANGO_API_URL": "django-api-production-e0de.up.railway.app",
+  "RAILWAY_SERVICE_FRONTEND_URL": "frontend-production-8adb0.up.railway.app",
+  "RAILWAY_SERVICE_ID": "af1347bf-75be-4a65-9170-e3ead57b5241",
+  "RAILWAY_SERVICE_NAME": "frontend",
+  "RAILWAY_STATIC_URL": "frontend-production-8adb0.up.railway.app"
+}

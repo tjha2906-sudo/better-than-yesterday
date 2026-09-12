@@ -1,0 +1,3 @@
+{
+  "domain": "https://better-than-yesterday-production.up.railway.app"
+}

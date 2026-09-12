@@ -1,0 +1,90 @@
+,
+  getDefaultAsset
+} from "./chunk-E5CJULSE.mjs";
+import {
+  encodeTransaction,
+  isTestnetNetwork,
+  normalizeAlgorandNetwork
+} from "./chunk-2BK2B7QI.mjs";
+
+// src/exact/client/scheme.ts
+import { AlgorandClient } from "@algorandfoundation/algokit-utils/algorand-client";
+import {
+  Transaction,
+  encodeTransactionRaw,
+  groupTransactions,
+  makeEmptyTransactionSigner
+} from "@algorandfoundation/algokit-utils/transact";
+import { microAlgo } from "@algorandfoundation/algokit-utils/amount";
+var ExactAvmScheme = class {
+  /**
+   * Creates a new ExactAvmScheme instance.
+   *
+   * @param signer - 
+--- full createPaymentPayload group build ---
+  receiver: feePayer,
+        amount: microAlgo(0),
+        note: `x402-fee-payer-${Date.now()}`,
+        signer: emptySigner
+      });
+      paymentIndex = 1;
+    }
+    composer.addAssetTransfer({
+      sender: this.signer.address,
+      receiver: payTo,
+      assetId: BigInt(assetId),
+      amount: BigInt(amount),
+      staticFee: feePayer ? microAlgo(0) : void 0,
+      // 0 fee when fee payer covers
+      note: `x402-payment-v${x402Version}-${Date.now()}`,
+      signer: emptySigner
+    });
+    const built = await composer.build();
+    let transactions = built.transactions.map((tws) => tws.txn);
+    if (feePayer) {
+      const sp = await algorandClient.getSuggestedParams();
+      const feePerByte = Number(sp.fee);
+      const minFee = Number(sp.minFee);
+      let totalGroupFee = BigInt(0);
+      for (const txn of transactions) {
+        const txnSize = encodeTransactionRaw(txn).length;
+        const txnFee = feePerByte > 0 ? Math.max(feePerByte * txnSize, minFee) : minFee;
+        totalGroupFee += BigInt(txnFee);
+      }
+      const ungrouped = transactions.map((txn, i) => {
+        const fee = i === 0 ? totalGroupFee : BigInt(0);
+        return new Transaction({ ...txn, fee, group: void 0 });
+      });
+      transactions = groupTransactions(ungrouped);
+    }
+    const encodedTxns = transactions.map((txn) => encodeTransactionRaw(txn));
+    const clientIndexes = transactions.map((txn, i) => txn.sender.toString() === this.signer.address ? i : -1).filter((i) => i !== -1);
+    const signedTxns = await this.signer.signTransactions(encodedTxns, clientIndexes);
+    const paymentGroup = encodedTxns.map((txnBytes, i) => {
+      const signedTxn = signedTxns[i];
+      if (signedTxn) {
+        return encodeTransaction(signedTxn);
+      }
+      return encodeTransaction(txnBytes);
+    });
+    const payload = {
+      paymentGroup,
+      paymentIndex
+    };
+    return {
+      x402Version,
+      payload
+    };
+  }
+  /**
+   * Creates or retrieves an AlgorandClient for the given network.
+   *
+   * @param network - Network identifier (CAIP-2 format)
+   * @returns AlgorandClient instance
+   */
+  getAlgorandClient(network) {
+    const normalizedNetwork = normalizeAlgorandNetwork(network);
+    if (this.config?.algorandClient) {
+      return this.config.algorandClient;
+    }
+    if

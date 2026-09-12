@@ -1,0 +1,3 @@
+> What do you need? Empty Service
+> Enter a service name django-api
+> Enter a variable 
