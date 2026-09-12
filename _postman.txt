@@ -1,8 +1,0 @@
-resources.yaml
-collections
-documents
-environments
-flows
-globals
-mocks
-specs

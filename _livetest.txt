@@ -1,3 +1,0 @@
-   (could not decode payment request: list index out of range )
-[OK] x402 LIVE /health -> HTTP 200
-[OK] x402 LIVE premium no-payment -> 402 + header -> HTTP 402

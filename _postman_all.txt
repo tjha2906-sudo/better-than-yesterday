@@ -1,9 +1,0 @@
-C:\Users\Tejaswi\OneDrive\Desktop\BETTER_THAN_YESTERDAY\postman\collections
-C:\Users\Tejaswi\OneDrive\Desktop\BETTER_THAN_YESTERDAY\postman\documents
-C:\Users\Tejaswi\OneDrive\Desktop\BETTER_THAN_YESTERDAY\postman\environments
-C:\Users\Tejaswi\OneDrive\Desktop\BETTER_THAN_YESTERDAY\postman\flows
-C:\Users\Tejaswi\OneDrive\Desktop\BETTER_THAN_YESTERDAY\postman\globals
-C:\Users\Tejaswi\OneDrive\Desktop\BETTER_THAN_YESTERDAY\postman\mocks
-C:\Users\Tejaswi\OneDrive\Desktop\BETTER_THAN_YESTERDAY\postman\specs
-C:\Users\Tejaswi\OneDrive\Desktop\BETTER_THAN_YESTERDAY\postman\globals\workspace.globals.yaml
-server.ts

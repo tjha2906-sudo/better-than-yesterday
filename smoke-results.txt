@@ -1,5 +1,0 @@
-[OK] x402 /health -> HTTP 200
-[OK] x402 premium no-payment -> 402 + header -> HTTP 402
-[OK] django register -> HTTP 201
-[OK] django token -> HTTP 200
-[OK] django dashboard auth -> HTTP 200

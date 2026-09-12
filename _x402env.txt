@@ -1,9 +1,0 @@
-PORT=4021
-
-DJANGO_API_URL=http://127.0.0.1:8000
-
-FACILITATOR_URL=https://facilitator.goplausible.xyz
-
-RESOURCE_PAY_TO=V5C442LGGVAEFVQYNQHVCIDN5EU4JWOOL4WG6H2NQP5ZGHGTRODRRLN2BI
-
-AVM_MNEMONIC="expect second frown coin curtain follow false there satoshi fruit result ski what brave tornado feed salmon fall rifle shove net riot nation absent tired"

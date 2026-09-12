@@ -1,2 +1,0 @@
-Recent Deployments
-  283a383b-d6ee-42ab-9c7e-2c73055b4250 | SUCCESS | 2026-09-11 15:56:02 +05:30

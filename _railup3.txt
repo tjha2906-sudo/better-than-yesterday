@@ -1,1 +1,0 @@
-{"deploymentId":"c118a66c-aac6-42f2-aa3f-f73aadbd4a07","logsUrl":"https://railway.com/project/1363f096-bb49-44b5-b920-ea49b9a6fd2d/service/ab23c2ca-e420-4073-949a-d87fef7348bd?id=c118a66c-aac6-42f2-aa3f-f73aadbd4a07&"}

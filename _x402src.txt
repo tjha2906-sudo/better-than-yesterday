@@ -1,7 +1,0 @@
-x402-service\node_modules\@x402\express\dist\cjs\index.js:83:   * Gets the full URL of the request.
-x402-service\node_modules\@x402\express\dist\cjs\index.js:85:   * @returns The full request URL
-x402-service\node_modules\@x402\express\dist\cjs\index.js:87:  getUrl() {
-x402-service\node_modules\@x402\express\dist\cjs\index.js:88:    return `${this.req.protocol}://${this.req.headers.host}${this.req.originalUrl}`;
-x402-service\node_modules\@x402\express\dist\cjs\index.js:107:   * Gets all query parameters from the request URL.
-x402-service\node_modules\@x402\express\dist\cjs\index.js:126:   * Requires express.json() or express.urlencoded() middleware.
-x402-service\node_modules\@x402\express\dist\cjs\index.js:446://# sourceMappingURL=index.js.map

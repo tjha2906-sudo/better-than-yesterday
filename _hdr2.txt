@@ -1,4 +1,0 @@
-DECODED PAYMENT-REQUIRED:
-{"x402Version":2,"error":"Payment required","resource":{"url":"http://better-than-yesterday-production.up.railway.app/api/premium/productivity-report","description":"Premium Better Than Yesterday productivity report","mimeType":"application/json"},"accepts":[{"scheme":"exact","network":"algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=","amount":"10000","asset":"10458941","payTo":"V5C442LGGVAEFVQYNQHVCIDN5EU4JWOOL4WG6H2NQP5ZGHGTRODRRLN2BI","maxTimeoutSeconds":300,"extra":{"asset":"10458941","feePayer":"ZMFK2OI7ZBD2U27ISERZC4S6LKM6WMFJPZQ4MYNJDZ2VNBNMBA67RA22AA"}}]}
-
-resource.url = http://better-than-yesterday-production.up.railway.app/api/premium/productivity-report
