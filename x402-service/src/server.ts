@@ -71,34 +71,40 @@ const app = express();
 
 app.set("trust proxy", true);
 
-app.use((req, res, next) => {
-    const origin = req.headers.origin;
-
-    if (origin) {
-        res.header("Access-Control-Allow-Origin", origin);
-    }
-
-    res.header(
-        "Access-Control-Allow-Headers",
-        "Content-Type, Authorization, PAYMENT-SIGNATURE, X-PAYMENT"
-    );
-
-    res.header(
-        "Access-Control-Allow-Methods",
-        "GET, POST, PUT, PATCH, DELETE, OPTIONS"
-    );
-
-    res.header(
-        "Access-Control-Expose-Headers",
-        "PAYMENT-REQUIRED, PAYMENT-RESPONSE"
-    );
-
-    if (req.method === "OPTIONS") {
-        return res.sendStatus(204);
-    }
-
-    next();
-});
+/*
+ * CORS
+ *
+ * Must run BEFORE x402 paymentMiddleware so browser preflight requests
+ * and x402 402/200 responses receive the required CORS headers.
+ *
+ * The current frontend/x402 client requests Access-Control-Expose-Headers
+ * during preflight, so it is explicitly allowed for compatibility.
+ */
+app.use(
+    cors({
+        origin: true,
+        methods: [
+            "GET",
+            "POST",
+            "PUT",
+            "PATCH",
+            "DELETE",
+            "OPTIONS"
+        ],
+        allowedHeaders: [
+            "Content-Type",
+            "Authorization",
+            "PAYMENT-SIGNATURE",
+            "X-PAYMENT",
+            "Access-Control-Expose-Headers"
+        ],
+        exposedHeaders: [
+            "PAYMENT-REQUIRED",
+            "PAYMENT-RESPONSE"
+        ],
+        optionsSuccessStatus: 204
+    })
+);
 
 app.use(express.json());
 
@@ -263,6 +269,8 @@ const routes: RoutesConfig = {
 | x402 Payment Middleware
 |--------------------------------------------------------------------------
 */
+
+
 
 app.use(
     paymentMiddleware(
