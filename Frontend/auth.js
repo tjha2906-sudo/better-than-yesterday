@@ -244,7 +244,7 @@
                 );
 
                 localStorage.setItem(
-                    "bty_username",
+                    "username",
                     data.username
                 );
 
@@ -354,7 +354,7 @@
                 );
 
                 localStorage.setItem(
-                    "bty_username",
+                    "username",
                     data.username
                 );
 
