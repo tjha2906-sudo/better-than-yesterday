@@ -5041,164 +5041,342 @@ function createPremiumPeraSigner() {
         address:
             premiumWalletAddress,
 
-        async signTransactions(txns, indexesToSign) {
+        async signTransactions(
+            txns,
+            indexesToSign
+        ) {
 
-    console.log("🔐 Pera signTransactions called");
-    console.log("Transactions:", txns?.length);
-    console.log("Indexes to sign:", indexesToSign);
-    console.log("Pera isConnected:", premiumPeraWallet.isConnected);
-
-    if (!Array.isArray(txns) || txns.length === 0) {
-        throw new Error(
-            "x402 did not provide any transactions to sign."
-        );
-    }
-
-    const { algosdk } = await loadPremiumLibraries();
-
-    if (!algosdk) {
-        throw new Error("algosdk could not be loaded.");
-    }
-
-    /*
-     * Only decode transactions that x402 explicitly
-     * asks our wallet to sign.
-     *
-     * Example:
-     * txns = [facilitatorTxn, userPaymentTxn]
-     * indexesToSign = [1]
-     *
-     * We decode ONLY txn[1].
-     */
-
-    const signIndexes =
-        Array.isArray(indexesToSign)
-            ? indexesToSign
-            : txns.map((_, index) => index);
-
-    const txnGroup = [];
-
-    for (const index of signIndexes) {
-
-        const rawTxn = txns[index];
-
-        if (!rawTxn) {
-            throw new Error(
-                `x402 transaction ${index} is missing.`
+            console.log(
+                "🔐 Pera signTransactions called"
             );
-        }
 
-        let txnBytes = rawTxn;
+            console.log(
+                "Transactions:",
+                txns?.length
+            );
 
-        if (!(txnBytes instanceof Uint8Array)) {
-            txnBytes = new Uint8Array(txnBytes);
-        }
+            console.log(
+                "Indexes to sign:",
+                indexesToSign
+            );
 
-        console.log(
-            `🔄 Decoding signable transaction ${index} for Pera...`
-        );
+            console.log(
+                "Pera isConnected:",
+                premiumPeraWallet.isConnected
+            );
 
-        let decodedTxn;
 
-        try {
+            if (
+                !Array.isArray(txns) ||
+                txns.length === 0
+            ) {
+                throw new Error(
+                    "x402 did not provide any transactions to sign."
+                );
+            }
 
-            decodedTxn =
-                algosdk.decodeUnsignedTransaction(
-                    txnBytes
+
+            /*
+             * algosdk is loaded dynamically by
+             * loadPremiumLibraries().
+             */
+
+            const {
+                algosdk
+            } = await loadPremiumLibraries();
+
+
+            if (!algosdk) {
+
+                throw new Error(
+                    "algosdk could not be loaded."
                 );
 
-        } catch (decodeError) {
+            }
 
-            console.error(
-                `❌ Failed to decode signable transaction ${index}:`,
-                decodeError
+
+            /*
+             * -------------------------------------------------
+             * BUILD COMPLETE PERA TRANSACTION GROUP
+             * -------------------------------------------------
+             *
+             * x402 may give us:
+             *
+             *   txn[0] -> facilitator / fee transaction
+             *   txn[1] -> user's payment transaction
+             *
+             * indexesToSign may be:
+             *
+             *   [1]
+             *
+             * We MUST still give Pera BOTH transactions.
+             *
+             * But only transaction 1 gets our wallet as signer.
+             */
+
+            const txnGroup =
+                txns.map(
+                    (rawTxn, index) => {
+
+                        let txnBytes =
+                            rawTxn;
+
+
+                        /*
+                         * Make sure we have Uint8Array.
+                         */
+
+                        if (
+                            !(txnBytes instanceof Uint8Array)
+                        ) {
+
+                            txnBytes =
+                                new Uint8Array(
+                                    txnBytes
+                                );
+
+                        }
+
+
+                        /*
+                         * Decode the raw x402 transaction.
+                         *
+                         * This is the critical fix.
+                         *
+                         * Pera expects an Algorand Transaction
+                         * object, NOT Uint8Array.
+                         */
+
+                        console.log(
+                            `🔄 Decoding transaction ${index} for Pera...`
+                        );
+
+
+                        let decodedTxn;
+
+
+                        try {
+
+                            decodedTxn =
+                                algosdk.decodeUnsignedTransaction(
+                                    txnBytes
+                                );
+
+                        } catch (decodeError) {
+
+                            console.error(
+                                `❌ Failed to decode transaction ${index}:`,
+                                decodeError
+                            );
+
+                            throw new Error(
+                                `Could not decode x402 transaction ${index}.`
+                            );
+
+                        }
+
+
+                        if (!decodedTxn) {
+
+                            throw new Error(
+                                `x402 transaction ${index} decoded to an invalid transaction.`
+                            );
+
+                        }
+
+
+                        console.log(
+                            `✅ Transaction ${index} decoded`
+                        );
+
+
+                        /*
+                         * Decide whether this transaction belongs
+                         * to our wallet.
+                         */
+
+                        const shouldSign =
+                            !Array.isArray(
+                                indexesToSign
+                            ) ||
+                            indexesToSign.includes(
+                                index
+                            );
+
+
+                        return {
+
+                            /*
+                             * IMPORTANT:
+                             *
+                             * Pera needs the decoded
+                             * algosdk.Transaction object.
+                             */
+
+                            txn:
+                                decodedTxn,
+
+
+                            /*
+                             * Empty signer list means:
+                             * DO NOT ask our wallet to sign it.
+                             */
+
+                            signers:
+                                shouldSign
+                                    ? [
+                                        premiumWalletAddress
+                                    ]
+                                    : []
+
+                        };
+
+                    }
+                );
+
+
+            console.log(
+                "✅ Full decoded x402 transaction group prepared:",
+                txnGroup.length
             );
 
-            throw new Error(
-                `Could not decode x402 transaction ${index} for Pera.`
+
+            console.log(
+                "Signing indexes:",
+                indexesToSign
             );
+
+
+            /*
+             * -------------------------------------------------
+             * SEND COMPLETE GROUP TO PERA
+             * -------------------------------------------------
+             */
+
+            console.log(
+                "📱 Opening Pera signing request..."
+            );
+
+
+            const signedTxns =
+                await premiumPeraWallet.signTransaction(
+                    [
+                        txnGroup
+                    ]
+                );
+
+
+            console.log(
+                "✅ Pera signing completed"
+            );
+
+
+            if (
+                !Array.isArray(signedTxns)
+            ) {
+
+                throw new Error(
+                    "Pera returned an invalid signing response."
+                );
+
+            }
+
+
+            /*
+             * -------------------------------------------------
+             * MAP SIGNED TRANSACTIONS BACK TO x402 INDEXES
+             * -------------------------------------------------
+             *
+             * Example:
+             *
+             * x402:
+             *
+             *   [ txn0, txn1 ]
+             *
+             * indexesToSign:
+             *
+             *   [ 1 ]
+             *
+             * Pera returns:
+             *
+             *   [ signedTxn1 ]
+             *
+             * x402 expects:
+             *
+             *   [ null, signedTxn1 ]
+             */
+
+            const result =
+                txns.map(
+                    () => null
+                );
+
+
+            let signedIndex = 0;
+
+
+            for (
+                let i = 0;
+                i < txns.length;
+                i++
+            ) {
+
+                const shouldSign =
+                    !Array.isArray(
+                        indexesToSign
+                    ) ||
+                    indexesToSign.includes(
+                        i
+                    );
+
+
+                if (!shouldSign) {
+
+                    result[i] =
+                        null;
+
+                    continue;
+
+                }
+
+
+                const signedTxn =
+                    signedTxns[
+                        signedIndex++
+                    ];
+
+
+                if (!signedTxn) {
+
+                    throw new Error(
+                        `Pera did not return a signed transaction for index ${i}.`
+                    );
+
+                }
+
+
+                result[i] =
+                    signedTxn;
+
+            }
+
+
+            console.log(
+                "✅ x402 signature result mapped:",
+                result.map(
+                    (item, index) =>
+                        `${index}: ${
+                            item
+                                ? "SIGNED"
+                                : "UNSIGNED"
+                        }`
+                )
+            );
+
+
+            return result;
+
         }
-
-        if (!decodedTxn) {
-            throw new Error(
-                `x402 transaction ${index} decoded to an invalid transaction.`
-            );
-        }
-
-        console.log(
-            `✅ Transaction ${index} decoded for Pera`
-        );
-
-        txnGroup.push({
-            txn: decodedTxn,
-            signers: [premiumWalletAddress]
-        });
-    }
-
-    console.log(
-        "✅ Signable transactions prepared:",
-        txnGroup.length
-    );
-
-    console.log(
-        "📱 Opening Pera signing request..."
-    );
-
-    const signedTxns =
-        await premiumPeraWallet.signTransaction([
-            txnGroup
-        ]);
-
-    console.log(
-        "✅ Pera signing completed"
-    );
-
-    if (!Array.isArray(signedTxns)) {
-        throw new Error(
-            "Pera returned an invalid signing response."
-        );
-    }
-
-    /*
-     * Restore the original x402 transaction positions.
-     *
-     * Example:
-     *
-     * x402 transactions: [txn0, txn1]
-     * signIndexes:       [1]
-     *
-     * result:             [null, signedTxn1]
-     */
-
-    const result =
-        txns.map(() => null);
-
-    let signedIndex = 0;
-
-    for (const index of signIndexes) {
-
-        const signedTxn =
-            signedTxns[signedIndex++];
-
-        if (!signedTxn) {
-            throw new Error(
-                `Pera did not return a signed transaction for index ${index}.`
-            );
-        }
-
-        result[index] = signedTxn;
-    }
-
-    console.log(
-        "✅ x402 signature result mapped:",
-        result.map(
-            (item, index) =>
-                `${index}: ${item ? "SIGNED" : "UNSIGNED"}`
-        )
-    );
-
-    return result;
-}
 
     };
 
